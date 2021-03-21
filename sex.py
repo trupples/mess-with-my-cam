@@ -21,8 +21,12 @@ def telegram_bot():
 	SSEFuckery.sse_broadcast to send the taunts to the web clients.
 	"""
 
+	def start(update, context):
+		update.message.reply_text("Buna")
+
 	def error(update, context):
 		update.message.reply_text('an error occured')
+		raise context.error
 
 	def text(update, context):
 		text_received = update.message.text
@@ -67,6 +71,7 @@ def telegram_bot():
 
 	updater = Updater(os.getenv("TELEGRAM_TOKEN"), use_context=True)
 	dispatcher = updater.dispatcher
+	dispatcher.add_handler(CommandHandler("start", start))
 	dispatcher.add_handler(CommandHandler("doaflip", doaflip))
 	dispatcher.add_handler(MessageHandler(Filters.text, text))
 	dispatcher.add_error_handler(error)
