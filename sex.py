@@ -10,15 +10,15 @@ import emojis
 import grapheme
 import random
 
-# Idk what this does precisely, but the telegram bot recommended it /shrug
+# Idk what this does precisely, but the python-telegram-bot docs recommend it
 import logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                      level=logging.INFO)
 
 def telegram_bot():
 	"""
-	Telegram bot thread. Does the telegram bot business and uses
-	SSEFuckery.sse_broadcast to send the taunts to the web clients.
+	Telegram bot thread - listens for messages, handles commands, and passes
+	suitable SSE events via SSEFuckery.sse_broadcast
 	"""
 
 	def start(update, context):
@@ -80,7 +80,8 @@ def telegram_bot():
 
 class SSEFuckery(SimpleHTTPRequestHandler):
 	"""
-	This class describes a sse fuckery.
+	Handles concurrent SSE streams and broadcasting SSE events to them, as well
+	as falling back to basic HTTP static serving for non-sse paths.
 	"""
 	all_wfiles = set()
 	all_wfiles_lock = Lock()
@@ -88,10 +89,7 @@ class SSEFuckery(SimpleHTTPRequestHandler):
 	@staticmethod
 	def sse_broadcast(event, data=""):
 		"""
-		Broadcasts an SSE event to all current connections.
-		
-		:param      event:  Event type
-		:param      data:   Associated event data
+		Broadcasts an SSE event to all current streams.
 		"""
 		payload = f"event: {event}\ndata: {data}\n\n".encode()
 		with SSEFuckery.all_wfiles_lock:
