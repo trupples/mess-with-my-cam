@@ -8,6 +8,7 @@ from threading import Thread, Lock
 import time
 import emojis
 import grapheme
+import random
 
 # Idk what this does precisely, but the telegram bot recommended it /shrug
 import logging
@@ -37,8 +38,36 @@ def telegram_bot():
 		update.message.reply_text(f'auzi cica >{text_received}')
 		SSEFuckery.sse_broadcast("scrolly-text", text_received)
 
+	def doaflip(update, context):
+		print("doaflip")
+		SSEFuckery.sse_broadcast("doaflip")
+		update.message.reply_animation(random.choice([
+			"https://i.imgur.com/DHMMKyf.mp4",
+			"https://i.imgur.com/pjpN4Gr.mp4",
+			"https://i.imgur.com/x9CL5z7.mp4",
+			"https://i.imgur.com/k7IRDVF.mp4",
+			"https://i.imgur.com/h9DVD3G.mp4",
+			"https://i.imgur.com/0O1hyWx.mp4",
+			"https://media.giphy.com/media/3o85xnYxeojLcZ7GNy/giphy.gif",
+			"https://media.giphy.com/media/l3fQwP0Fv7ek6uPWU/giphy.gif",
+			"https://media.giphy.com/media/mKMGLhoD8L4yc/giphy.gif",
+			"https://media.giphy.com/media/M3gmDwPbAWkbS/giphy.gif",
+			"https://media.giphy.com/media/xTcnSMYx90VnYZti0g/giphy.gif",
+			"https://media.giphy.com/media/10uzUfr4cGYxIk/giphy.gif",
+			"https://media.giphy.com/media/2QixVlIqaFtVC/giphy.gif",
+			"https://media.giphy.com/media/3o7Zez01HKXvaLXiHS/giphy.gif",
+			"https://media.giphy.com/media/LOhwoZFUQwfMhww0rx/giphy.gif",
+			"https://media.giphy.com/media/wwfCmkKuKzAAM/giphy.gif",
+			"https://media.giphy.com/media/jOQ91yKFFdSgu7HZqh/giphy.gif",
+			"https://media.giphy.com/media/ihjeVd9YRjoTGFXtN9/giphy.gif",
+			"https://media.giphy.com/media/o2oe2HMZKZUpW/giphy.gif",
+			"https://media.giphy.com/media/Z9J8SJgYrFR8JQrl8S/giphy.gif",
+			"https://media.giphy.com/media/12S8pukaOwZApa/giphy.gif"
+		]))
+
 	updater = Updater(os.getenv("TELEGRAM_TOKEN"), use_context=True)
 	dispatcher = updater.dispatcher
+	dispatcher.add_handler(CommandHandler("doaflip", doaflip))
 	dispatcher.add_handler(MessageHandler(Filters.text, text))
 	dispatcher.add_error_handler(error)
 	updater.start_polling()
@@ -52,7 +81,7 @@ class SSEFuckery(SimpleHTTPRequestHandler):
 	all_wfiles_lock = Lock()
 
 	@staticmethod
-	def sse_broadcast(event, data):
+	def sse_broadcast(event, data=""):
 		"""
 		Broadcasts an SSE event to all current connections.
 		
