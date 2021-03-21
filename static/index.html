@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title> Trupples sex cam </title>
+
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Chango&display=swap" rel="stylesheet"> 
+		<style>
+			body {
+				margin: 0;
+				font-family: Chango, sans-serif;
+			}
+
+			video {
+				position: absolute;
+				left: 0; top: 0; width: 100vw; height: 100vh;
+			}
+		</style>
+
+		<script src="https://cdn.jsdelivr.net/npm/grapheme-splitter@1.0.4/index.min.js"></script>
+		<script src="index.js"></script>
+
+		<link rel="stylesheet" href="effect-scrolly-text.css" />
+		<script src="effect-scrolly-text.js"></script>
+
+		<link rel="stylesheet" href="effect-emojis.css" />
+		<script src="effect-emojis.js"></script>
+	</head>
+	<body>
+		<video id="video" autoplay></video>
+		<div id="scrolly-texts"></div>
+		<div id="emojis"></div>
+
+		<script>
+			if(window.innerWidth != WEBCAM_WIDTH || window.innerHeight != WEBCAM_HEIGHT) {
+				window.open("/", "", `width=${WEBCAM_WIDTH},height=${WEBCAM_HEIGHT}`);
+				document.write("Opened a new window with the right resolution!");
+			} else {
+				navigator.mediaDevices.getUserMedia({
+					audio: false,
+					video: {
+						width: { ideal: WEBCAM_WIDTH },
+						height: { ideal: WEBCAM_HEIGHT }
+					}
+				}).then(stream => {
+					video.srcObject = stream;
+				}).catch(e => {
+					console.log("No permission!")
+				});
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,36 @@
+#scrolly-texts {
+	position: absolute;
+}
+
+@keyframes scrolleft {
+	from {
+		left: 100vw;
+	} to {
+		left: -500vw;
+	}
+}
+
+@keyframes wave {
+	from {
+		transform: translate(0, -1em);
+	} to {
+		transform: translate(0, 1em);
+	}
+}
+
+.scrolly-text {
+	position: fixed;
+	animation: 30s linear 0s 1 normal both running scrolleft;
+	white-space: nowrap;
+	text-shadow: 0 3px 0 black;
+
+	/* Prevent overflow and then fix vertical clipping */
+	max-width: 500vw; overflow: hidden;
+	height: 10em; line-height: 10em; transform: translateY(-5em);*/
+}
+
+.scrolly-char {
+	display: inline-block;
+	animation: 800ms cubic-bezier(.3642,0,.6358,1) 0s infinite alternate wave;
+	white-space: pre;
+}
